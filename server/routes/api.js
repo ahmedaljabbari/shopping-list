@@ -1,9 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const Hamster = require("../model/Hamster");
+const Product = require("../model/Product");
+
+
+router.get("/", (req, res) => {
+  Product.find()
+    .sort({ createdAt: -1 })
+    .then((items) => res.json(items))
+    .catch((err) => console.log(err));
+});
 
 router.get("/battle", (req, res) => {
-  Hamster.find()
+  Product.find()
     .then((items) => {
       var el = "",
         el2 = "";
@@ -24,7 +32,7 @@ router.post("/battle", (req, res) => {
   const id = req.body.id;
   console.log("loser ===>  " + req.body.loser);
   console.log("winner ===>  " + req.body.name);
-  Hamster.findOneAndUpdate(
+  Product.findOneAndUpdate(
     { name: req.body.name },
     { 
       wins: parseInt(req.body.wins),
@@ -39,7 +47,7 @@ router.post("/battle", (req, res) => {
       }
     }
   ).then(()=>{
-    Hamster.findOneAndUpdate({name: req.body.loser}, 
+    Product.findOneAndUpdate({name: req.body.loser}, 
       { 
         defeats: parseInt(req.body.loserDefeats),
         games: parseInt(req.body.loserGames)
@@ -59,7 +67,7 @@ router.post("/battle", (req, res) => {
 
 router.get("/result/:id", (req, res) => {
   const id = req.params.id;
-  Hamster.findById(id)
+  Product.findById(id)
     .then((item) => {
       console.log(item);
       res.json(item);
@@ -70,7 +78,7 @@ router.get("/result/:id", (req, res) => {
 
 router.post("/upload", (req, res) => {
   var age = parseInt(req.body.age);
-  Hamster.create({
+  Product.create({
     name:req.body.name,
     age: age,
     favFood: req.body.favFood,
@@ -87,7 +95,7 @@ router.post("/upload", (req, res) => {
 
 
 router.get('/stats', (req, res) => {
-  Hamster.find().then((items) => {
+  Product.find().then((items) => {
     let totalGames = 0;
     for (let index = 0; index < items.length; index++) {
       totalGames = totalGames + items[index].games;
