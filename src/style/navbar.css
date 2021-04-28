@@ -1,0 +1,13 @@
+.mr-auto{
+    text-align: left;
+}
+
+.mr-auto a, .mr-auto a:hover {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+.navbar-items{
+    padding: 10px 0;
+    color: springgreen;
+}
