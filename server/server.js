@@ -21,6 +21,8 @@ mongoose.connect(DBconnection, { useNewUrlParser: true, useUnifiedTopology: true
 
 const port = process.env.PORT || 1337; 
 
+app.use(express.static(__dirname + '/../build'));
+
 app.listen(port, () => {
   console.log("listening ok");
 });
